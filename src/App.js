@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
 import './App.scss'
 import Car from './Car/Car'
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
+import Counter from './Counter/Counter'
 class App extends Component {
-  state = {
-    cars: [
-      { name: 'Ford', year: '2018' },
-      { name: 'Audi', year: '1982' },
-      { name: 'Mazda', year: '1999' }
-    ],
-    pageTitle: 'React components',
-    showCars: false
+  constructor(props) {
+    super(props)
+    console.log('contructor')
+    this.state = {
+      cars: [
+        { name: 'Ford', year: '2018' }
+        // { name: 'Audi', year: '1982' },
+        // { name: 'Mazda', year: '1999' }
+      ],
+      pageTitle: 'React components',
+      showCars: false
+    }
   }
 
   changeTitleHandler = newTitle => {
@@ -39,6 +45,7 @@ class App extends Component {
       cars
     })
   }
+
   deleteHandler(index) {
     const cars = [...this.state.cars]
 
@@ -49,13 +56,25 @@ class App extends Component {
     })
   }
 
+  componentWillMount() {
+    console.log('App componentWillMount')
+  }
+
+  componentDidMount() {
+    console.log('App componentDidMount')
+  }
+
   render() {
-    const pageTitle = this.state.pageTitle
+    console.log('render')
+    // const pageTitle = this.state.pageTitle
     const cars = this.state.cars
 
     return (
       <div>
-        <h1>{pageTitle}</h1>
+        {/* <h1>{pageTitle}</h1> */}
+        <h1>{this.props.title}</h1>
+
+        <Counter />
 
         <input type='text' onChange={this.handleInput} />
 
@@ -67,15 +86,16 @@ class App extends Component {
 
         {this.state.showCars &&
           cars.map(({ name, year }, index) => (
-            <Car
-              key={index}
-              name={name}
-              year={year}
-              onChangeName={event =>
-                this.onChangeName(event.target.value, index)
-              }
-              onDelete={this.deleteHandler.bind(this, index)}
-            ></Car>
+            <ErrorBoundary key={index}>
+              <Car
+                name={name}
+                year={year}
+                onChangeName={event =>
+                  this.onChangeName(event.target.value, index)
+                }
+                onDelete={this.deleteHandler.bind(this, index)}
+              ></Car>
+            </ErrorBoundary>
           ))}
       </div>
     )
