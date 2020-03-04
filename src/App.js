@@ -9,9 +9,9 @@ class App extends Component {
     console.log('contructor')
     this.state = {
       cars: [
-        { name: 'Ford', year: '2018' }
-        // { name: 'Audi', year: '1982' },
-        // { name: 'Mazda', year: '1999' }
+        { name: 'Ford', year: 2018 },
+        { name: 'Audi', year: 1982 },
+        { name: 'Mazda', year: 1999 }
       ],
       pageTitle: 'React components',
       showCars: false
@@ -90,6 +90,7 @@ class App extends Component {
               <Car
                 name={name}
                 year={year}
+                index={index}
                 onChangeName={event =>
                   this.onChangeName(event.target.value, index)
                 }
